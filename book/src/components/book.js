@@ -1,4 +1,5 @@
 import React from "react";
+import dataSource from "../dataSource";
 
 class Book extends React.Component
 {
@@ -8,8 +9,13 @@ class Book extends React.Component
         this.props.onClick(this.props.bookId);
     }
 
-    handleAlbumEdit = (event) => {
-        this.props.editAlbum(this.props.albumId);
+    handleBookEdit = (event) => {
+        this.props.editAlbum(this.props.bookId);
+    }
+
+    handleBookDelete = async(event) => {
+        const response = await dataSource.delete('/books/deleteBook/'+this.props.bookId);
+        console.log(response);
     }
 
     render()
@@ -24,7 +30,8 @@ class Book extends React.Component
                     <p className="book-stock">Stock: {this.props.bookStock}</p>
                     <div className="mt-auto" align="center">
                         <button href="#" onClick={this.handleButtonClick} className="btn btn-primary mr-1">Details</button>
-                        <button href="#" onClick={this.handleAlbumEdit} className="btn btn-success mr-1">Edit</button>
+                        <button href="#" onClick={this.handleBookEdit} className="btn btn-success mr-1">Edit</button>
+                        <button href="#" onClick={this.handleBookDelete} className="btn btn-danger mr-1">Delete</button>
                     </div>
                 </div>
             </div> )
