@@ -26,6 +26,16 @@ p, h5 {
     align-items: center;
     column-gap: 10px;
 }
+
+.book-body-one {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
 /* 
 .book-author {
     display: flex;

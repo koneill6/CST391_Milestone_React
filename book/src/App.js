@@ -1,13 +1,11 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import SearchForm from "./SearchForm";
-import AlbumList from "./AlbumList";
 import BookList from "./components/bookList";
+import NewBook from "./components/NewBook";
+import OneBook from "./components/OneBook";
 import NavBar from "./NavBar";
-import NewAlbum from "./NewAlbum";
-import OneAlbum from "./OneAlbum";
-import EditAlbum from "./EditAlbum";
+import EditBook from "./components/EditBook";
 import "./App.css";
 import dataSource from "./dataSource";
 
@@ -15,7 +13,7 @@ const history = createBrowserHistory({basename: '.'});
 
 class App extends React.Component
 {
-      state = { albumList: [ ], bookList: [ ], searchPhrase: "", currentlySelectedalbumId: -1, currentlySelectedbookId: -1, loading: true}
+      state = { bookList: [ ], currentlySelectedbookId: -1, loading: true}
 
      componentDidMount()
      {
@@ -29,14 +27,6 @@ class App extends React.Component
           this.setState( { loading: false} );
           this.setState( { bookList: response.data} );
      }
-
-     // updateSearchResults = async (phrase) =>
-     // {
-     //      console.log("phrase is " + phrase);
-     //      this.setState( {searchPhrase: phrase});
-     //      const response = await dataSource.get('/albums/search/description/' + phrase);
-     //      this.setState( {albumList: response.data} );
-     // }
 
      updateSinglebook = (id) =>
      {
@@ -65,23 +55,20 @@ class App extends React.Component
                console.log("State is ", this.state));
      }
 
-     // cancelNewAlbum = () =>
-     // {
-     //      history.push('/');
-     //      console.log("Cancelling New Album");          
-     // }
+     cancelNewBook = () =>
+     {
+          history.push('/');       
+     }
 
-     // cancelEditlbum = () =>
-     // {
-     //      history.push('/');
-     //      console.log("Cancelling Edit Album");          
-     // }
+     cancelEditBook = () =>
+     {
+          history.push('/');       
+     }
 
-     // cancelDisplaylbum = () =>
-     // {
-     //      history.push('/');
-     //      console.log("Cancelling Display Album");          
-     // }
+     cancelDisplayBook = () =>
+     {
+          history.push('/');        
+     }
 
      render()
      {
@@ -103,7 +90,6 @@ class App extends React.Component
                                    {
                                         return (
                                              <div className="container">
-                                                  <SearchForm onSubmit={this.updateSearchResults} />
                                                   <BookList bookList={this.state.bookList} onClick={this.updateSinglebook} onEditBook={this.editBook} />
                                              </div> 
                                         
@@ -112,13 +98,13 @@ class App extends React.Component
                               } />
                          </Switch>
                          <Route exact path="/new" render = {
-                             () => <NewAlbum onCancel={this.cancelNewAlbum}/>
+                             () => <NewBook onCancel={this.cancelNewBook}/>
                          } />
-                         <Route exact path="/show/:albumId" render = {
-                              () => <OneAlbum album={this.state.albumList[this.state.currentlySelectedalbumId]} onCancel={this.cancelDisplaylbum}/>
+                         <Route exact path="/show/:bookId" render = {
+                              () => <OneBook book={this.state.bookList[this.state.currentlySelectedbookId]} onCancel={this.cancelDisplayBook}/>
                          } />
-                         <Route exact path="/edit/:albumId" render = {
-                              () => <EditAlbum album={this.state.albumList[this.state.currentlySelectedalbumId]} onCancel={this.cancelEditlbum}/>
+                         <Route exact path="/edit/:bookId" render = {
+                              () => <EditBook book={this.state.bookList[this.state.currentlySelectedbookId]} onCancel={this.cancelEditBook}/>
                          } />
                      </div>
                </Router> )
